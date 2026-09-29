@@ -95,7 +95,7 @@ fn probe_multi_return_packing() {
             let mut h = SorobanEnv::new();
             let addr = h.register_contract(&c.wasm);
             match h.try_invoke_contract(&addr, "f", vec![]) {
-                Outcome::Trapped => eprintln!("multi-return: invoke trapped"),
+                Outcome::Trapped(_) => eprintln!("multi-return: invoke trapped"),
                 Outcome::Returned(v) => {
                     eprintln!(
                         "multi-return (uint64,bool) packed as tag = {:?}",
@@ -117,7 +117,7 @@ fn probe_address_tag() {
             let addr = h.register_contract(&c.wasm);
             let a: Val = Address::generate(h.env()).into_val(h.env());
             match h.try_invoke_contract(&addr, "f", vec![a]) {
-                Outcome::Trapped => eprintln!("address: invoke trapped"),
+                Outcome::Trapped(_) => eprintln!("address: invoke trapped"),
                 Outcome::Returned(v) => {
                     eprintln!(
                         "address return tag = {:?} (no faithful equivalent downstream)",
@@ -160,7 +160,10 @@ fn probe_deploy_with_constructor_args() {
     let arg = to_val(h.env(), &NativeValue::uint_u64(7), &U64);
     let addr = h.register_contract_with_arg_vals(&c.wasm, vec![arg]);
     let v = h.invoke_contract(&addr, "get", vec![]);
-    assert_eq!(from_val(h.env(), v, &U64).unwrap(), NativeValue::uint_u64(7));
+    assert_eq!(
+        from_val(h.env(), v, &U64).unwrap(),
+        NativeValue::uint_u64(7)
+    );
 }
 
 #[test]

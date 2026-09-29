@@ -7,7 +7,10 @@ pub mod typemap;
 #[cfg(test)]
 mod tests;
 
-pub use compile::{compile_soroban, CompileError, Compiled};
+pub use compile::{compile_soroban, compile_sources, CompileError, Compiled};
 pub use env::{Outcome, SorobanEnv};
-pub use isolate::{run_isolated, run_isolated_timeout, Exit, Isolated, TIMEOUT};
-pub use runner::{run_source, CallVerdict, RunReport, Verdict};
+pub use isolate::{crash_summary, run_isolated, run_isolated_timeout, Exit, Isolated, TIMEOUT};
+pub use runner::{
+    filter_sources, run_source, run_source_with_warnings, shorten_paths, CallVerdict, RunReport,
+    Verdict,
+};
